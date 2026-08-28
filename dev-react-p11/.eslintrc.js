@@ -2,7 +2,8 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
-    jest: true
+    jest: true, 
+    cypress: true
   },
   extends: [
     'plugin:react/recommended',
@@ -16,10 +17,7 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: [
-    'react',
-  ],
-  rules: {
+    rules: {
     'react/react-in-jsx-scope': 'off',
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/jsx-props-no-spreading": 'off',
