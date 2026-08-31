@@ -2,10 +2,13 @@ import { render, screen } from "@testing-library/react";
 import { DataProvider, api, useData } from "./index";
 
 describe("DataContext", () => {
+
+  // clean des mocks après chaque test
   afterEach(() => {
     jest.restoreAllMocks();
   });
 
+  // simulation d'un composant basique pour les tests
   const Component = () => {
     const { data, error } = useData();
 
@@ -19,9 +22,8 @@ describe("DataContext", () => {
 
   describe("when data is successfully retrieved", () => {
     it("displays the retrieved data", async () => {
-      jest.spyOn(api, "loadData").mockResolvedValue({
-        result: "ok",
-      });
+      // remplacement de loadData par une fonction qui renvoie l'objet {result: "ok"}
+      jest.spyOn(api, "loadData").mockResolvedValue({result: "ok"})
 
       render(
         <DataProvider>
@@ -29,13 +31,11 @@ describe("DataContext", () => {
         </DataProvider>
       );
 
-      expect(await screen.findByText("ok")).toBeInTheDocument();
-    });
+      expect(await screen.findByText("ok")).toBeInTheDocument()
+    })
 
     it("does not display an error", async () => {
-      jest.spyOn(api, "loadData").mockResolvedValue({
-        result: "ok",
-      });
+      jest.spyOn(api, "loadData").mockResolvedValue({result: "ok"})
 
       render(
         <DataProvider>
@@ -43,15 +43,12 @@ describe("DataContext", () => {
         </DataProvider>
       );
 
-      await screen.findByText("ok");
-
-      expect(screen.queryByText(/error/i)).not.toBeInTheDocument();
-    });
+      await screen.findByText("ok")
+      expect(screen.queryByText(/error/i)).not.toBeInTheDocument()
+    })
 
     it("calls api.loadData", async () => {
-      const loadData = jest
-        .spyOn(api, "loadData")
-        .mockResolvedValue({ result: "ok" });
+      const loadData = jest.spyOn(api, "loadData").mockResolvedValue({ result: "ok" })
 
       render(
         <DataProvider>
@@ -59,17 +56,14 @@ describe("DataContext", () => {
         </DataProvider>
       );
 
-      await screen.findByText("ok");
-
-      expect(loadData).toHaveBeenCalledTimes(1);
-    });
+      await screen.findByText("ok")
+      expect(loadData).toHaveBeenCalledTimes(1)
+    })
   });
 
   describe("when data retrieval fails", () => {
     it("exposes the error through useData", async () => {
-      jest
-        .spyOn(api, "loadData")
-        .mockRejectedValue("error on calling events");
+      jest.spyOn(api, "loadData").mockRejectedValue("error on calling events")
 
       render(
         <DataProvider>
@@ -77,15 +71,11 @@ describe("DataContext", () => {
         </DataProvider>
       );
 
-      expect(
-        await screen.findByText("error on calling events")
-      ).toBeInTheDocument();
+      expect(await screen.findByText("error on calling events")).toBeInTheDocument()
     });
 
     it("does not display data", async () => {
-      jest
-        .spyOn(api, "loadData")
-        .mockRejectedValue("error on calling events");
+      jest.spyOn(api, "loadData").mockRejectedValue("error on calling events");
 
       render(
         <DataProvider>
@@ -93,24 +83,19 @@ describe("DataContext", () => {
         </DataProvider>
       );
 
-      await screen.findByText("error on calling events");
-
-      expect(screen.queryByText("ok")).not.toBeInTheDocument();
+      await screen.findByText("error on calling events")
+      expect(screen.queryByText("ok")).not.toBeInTheDocument()
     });
   });
 
-  describe("api.loadData", () => {
-    it("fetches events.json and returns its JSON data", async () => {
-      const response = {
-        result: "ok",
-      };
-
+  describe("testing api.loadData", () => {
+    it("fetches events.json and returns its JSON data", async () => {const response = {result: "ok"}
+      // remplacement du fetch global par la fonction moquée de jest
       global.fetch = jest.fn().mockResolvedValue({
         json: jest.fn().mockResolvedValue(response),
       });
 
       const result = await api.loadData();
-
       expect(global.fetch).toHaveBeenCalledWith("/events.json");
       expect(result).toEqual(response);
     });
