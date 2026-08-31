@@ -5,7 +5,7 @@ import "./style.scss";
 
 const EventCard = ({
   imageSrc,
-  imageAlt,
+  imageAlt = "image",
   date = new Date(),
   title,
   label,
@@ -31,15 +31,12 @@ const EventCard = ({
 EventCard.propTypes = {
   imageSrc: PropTypes.string.isRequired,
   imageAlt: PropTypes.string,
-  date: PropTypes.instanceOf(Date).isRequired,
+  date: PropTypes.instanceOf(Date),
   title: PropTypes.string.isRequired,
   small: PropTypes.bool,
   label: PropTypes.string.isRequired,
 };
 
-EventCard.defaultProps = {
-  imageAlt: "image",
-  small: false,
-}
+
 
 export default EventCard;

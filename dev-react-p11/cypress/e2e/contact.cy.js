@@ -8,32 +8,34 @@ describe("Formulaire de contact", () => {
     cy.get("#contact")
       .find('[data-testid="field-testid"]')
       .eq(0)
-      .type("Dupont");
+      .type("Violante");
 
     // Prénom
     cy.get("#contact")
       .find('[data-testid="field-testid"]')
       .eq(1)
-      .type("Jean");
+      .type("Sébastien");
 
     // Sélection Personnel / Entreprise
     cy.get("#contact")
       .find('[data-testid="collapse-button-testid"]')
       .click();
 
-    cy.get("#contact").contains("Entreprise").click();
+    cy.get("#contact")
+      .contains("Entreprise")
+      .click();
 
     // Email
     cy.get("#contact")
       .find('[data-testid="field-testid"]')
       .eq(2)
-      .type("jean.dupont@example.com");
+      .type("sebastien.violante@example.com");
 
     // Message
     cy.get("#contact")
       .find('[data-testid="field-testid"]')
       .eq(3)
-      .type("Bonjour, je souhaite obtenir plus d'informations.");
+      .type("Bonjour, je souhaite obtenir plus d'informations sur vos évènements en Indre et Loire.");
 
     // Envoi
     cy.get("#contact")
