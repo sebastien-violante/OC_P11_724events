@@ -1,4 +1,5 @@
-import { render, screen, act } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import { act } from "react";
 import Slider from "./index";
 import { api, DataProvider } from "../../contexts/DataContext";
 
@@ -25,13 +26,17 @@ const data = {
     ]
 };
 
-describe('When slider is created', () => {
 
+describe('When slider is created', () => {
+  // exécuté avant chaque test 
   beforeEach(() => {
+    // remplacement des timers par des fakers
     jest.useFakeTimers()
+    // utilisation de loadData = utilisation des data de mock définies en début de fichier
     api.loadData = jest.fn().mockReturnValue(data)
   })
 
+  // après chaque test : nettoyage des fakers et données
   afterEach(() => {
     jest.useRealTimers()
     jest.clearAllMocks()
@@ -43,7 +48,11 @@ describe('When slider is created', () => {
         <Slider/>
       </DataProvider>
     )
+
     expect(await screen.findByText('World economic forum')).toBeInTheDocument()
+    // détermination des radios seulement après le render et que le premier texte soit trouvé
+    const radios = screen.getAllByRole('radio')
+    expect(radios[0]).toBeChecked()
   })
 
   it('displays the second slide after the first and a timeout', async() => {
@@ -52,9 +61,14 @@ describe('When slider is created', () => {
         <Slider/>
       </DataProvider>
     )
+    
     expect(await screen.findByText('World economic forum')).toBeInTheDocument()
-    act(() => {jest.advanceTimersByTime(3000)})
+    const radios = screen.getAllByRole('radio')
+    expect(radios[0]).toBeChecked()
+    act(() => {jest.advanceTimersByTime(5000)})
     expect(await screen.findByText('Nordic design week')).toBeInTheDocument()
+
+    expect(radios[1]).toBeChecked()
   })
 
   it('returns to the first slide after having displayed all the slides', async() => {
@@ -63,15 +77,19 @@ describe('When slider is created', () => {
         <Slider/>
       </DataProvider>
     )
+
     expect(await screen.findByText('World economic forum')).toBeInTheDocument()
-    act(() => {jest.advanceTimersByTime(3000)})
+    const radios = screen.getAllByRole('radio')
+    expect(radios[0]).toBeChecked()
+    act(() => {jest.advanceTimersByTime(5000)})
     expect(await screen.findByText('Nordic design week')).toBeInTheDocument()
-    act(() => {jest.advanceTimersByTime(3000)})
+    expect(radios[1]).toBeChecked()
+    act(() => {jest.advanceTimersByTime(5000)})
     expect(await screen.findByText('Sneakercraze market')).toBeInTheDocument()
-    act(() => {jest.advanceTimersByTime(3000)})
+    expect(radios[2]).toBeChecked()
+    act(() => {jest.advanceTimersByTime(5000)})
     expect(await screen.findByText('World economic forum')).toBeInTheDocument()
+    expect(radios[0]).toBeChecked()
   })
-
-
 
 })
