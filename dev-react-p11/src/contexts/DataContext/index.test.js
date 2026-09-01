@@ -89,7 +89,8 @@ describe("DataContext", () => {
   });
 
   describe("testing api.loadData", () => {
-    it("fetches events.json and returns its JSON data", async () => {const response = {result: "ok"}
+    it("fetches events.json and returns its JSON data", async () => {
+      const response = {result: "ok"}
       // remplacement du fetch global par la fonction moquée de jest
       global.fetch = jest.fn().mockResolvedValue({
         json: jest.fn().mockResolvedValue(response),
@@ -100,8 +101,8 @@ describe("DataContext", () => {
       expect(result).toEqual(response);
     });
 
-    it("throws when fetch fails", async () => {
-      const error = new Error("network error");
+    it("throws when fetch fails", async () => { 
+      const error = new Error("network error")
 
       global.fetch = jest.fn().mockRejectedValue(error);
 

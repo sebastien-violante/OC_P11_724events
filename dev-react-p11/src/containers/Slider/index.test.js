@@ -67,7 +67,6 @@ describe('When slider is created', () => {
     expect(radios[0]).toBeChecked()
     act(() => {jest.advanceTimersByTime(5000)})
     expect(await screen.findByText('Nordic design week')).toBeInTheDocument()
-
     expect(radios[1]).toBeChecked()
   })
 
