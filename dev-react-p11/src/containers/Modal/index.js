@@ -3,7 +3,7 @@ import { useState } from "react";
 import Icon from "../../components/Icon";
 import "./style.scss";
 
-const Modal = ({ opened, Content, children }) => {
+const Modal = ({ opened = false, Content, children }) => {
   const [isOpened, setIsOpened] = useState(opened);
   return (
     <>
@@ -25,10 +25,6 @@ const Modal = ({ opened, Content, children }) => {
     </>
   );
 };
-
-Modal.defaultProps = {
-  opened: false,
-}
 
 Modal.propTypes = {
   opened: PropTypes.bool,

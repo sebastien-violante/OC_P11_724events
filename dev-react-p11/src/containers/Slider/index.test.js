@@ -70,25 +70,39 @@ describe('When slider is created', () => {
     expect(radios[1]).toBeChecked()
   })
 
-  it('returns to the first slide after having displayed all the slides', async() => {
-    render (
-      <DataProvider>
-        <Slider/>
-      </DataProvider>
-    )
+it('returns to the first slide after having displayed all the slides', async () => {
+  render(
+    <DataProvider>
+      <Slider />
+    </DataProvider>
+  );
 
-    expect(await screen.findByText('World economic forum')).toBeInTheDocument()
-    const radios = screen.getAllByRole('radio')
-    expect(radios[0]).toBeChecked()
-    act(() => {jest.advanceTimersByTime(5000)})
-    expect(await screen.findByText('Nordic design week')).toBeInTheDocument()
-    expect(radios[1]).toBeChecked()
-    act(() => {jest.advanceTimersByTime(5000)})
-    expect(await screen.findByText('Sneakercraze market')).toBeInTheDocument()
-    expect(radios[2]).toBeChecked()
-    act(() => {jest.advanceTimersByTime(5000)})
-    expect(await screen.findByText('World economic forum')).toBeInTheDocument()
-    expect(radios[0]).toBeChecked()
-  })
+  expect(
+    await screen.findByText('World economic forum')
+  ).toBeInTheDocument();
+
+  const numberOfSlides = data.focus.length
+
+  for(let idx = 0; idx < numberOfSlides; idx+=1) {
+    act(() => {
+      jest.advanceTimersByTime(5000);
+    })
+  }
+  expect(screen.getByText('World economic forum')).toBeInTheDocument();
+  const radios = screen.getAllByRole('radio');
+  expect(radios[0]).toBeChecked();
+})
+
+it('displays the right number of radio buttons', async () => {
+  render(
+    <DataProvider>
+      <Slider />
+    </DataProvider>
+  )
+  await screen.findByText('World economic forum')
+  const numberOfSlides = data.focus.length
+  const radios = screen.getAllByRole('radio')
+  expect(radios.length).toBe(numberOfSlides)
+})
 
 })

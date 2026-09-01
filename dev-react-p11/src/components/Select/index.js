@@ -2,15 +2,14 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-
 import './style.scss';
 
 const Select = ({
   selection,
-  onChange,
-  name,
-  titleEmpty,
-  label,
+  onChange = () => null,
+  name = 'select',
+  titleEmpty = false,
+  label = "",
   type = 'normal',
 }) => {
   const [value, setValue] = useState(null);
@@ -88,14 +87,6 @@ Select.propTypes = {
   titleEmpty: PropTypes.bool,
   label: PropTypes.string,
   type: PropTypes.string,
-};
-
-Select.defaultProps = {
-  onChange: () => null,
-  titleEmpty: false,
-  label: '',
-  type: 'normal',
-  name: 'select',
 };
 
 export default Select;
