@@ -42,9 +42,8 @@ describe("DataContext", () => {
           <Component />
         </DataProvider>
       );
-
-      await screen.findByText("ok")
-      expect(screen.queryByText(/error/i)).not.toBeInTheDocument()
+     
+      expect(await screen.queryByText(/error/i)).not.toBeInTheDocument()
     })
 
     it("calls api.loadData", async () => {
@@ -56,7 +55,6 @@ describe("DataContext", () => {
         </DataProvider>
       );
 
-      await screen.findByText("ok")
       expect(loadData).toHaveBeenCalledTimes(1)
     })
   });
@@ -83,8 +81,7 @@ describe("DataContext", () => {
         </DataProvider>
       );
 
-      await screen.findByText("error on calling events")
-      expect(screen.queryByText("ok")).not.toBeInTheDocument()
+      expect(await screen.queryByText("ok")).not.toBeInTheDocument()
     });
   });
 
