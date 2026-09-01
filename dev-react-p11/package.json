@@ -21,7 +21,7 @@
     "test:ci": "CI=true react-scripts test --watchAll=false",
     "lint": "eslint .eslintrc.js ./src",
     "format": "prettier ./src --write",
-    "vercel-build": "yarn run test:ci && yarn run build"
+    "vercel-build": "yarn test:ci && yarn build"
   },
   "browserslist": {
     "production": [
